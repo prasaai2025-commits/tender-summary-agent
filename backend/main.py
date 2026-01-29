@@ -3,21 +3,22 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import os, shutil
 
-# ✅ Relative imports (CORRECT)
-from . import pdf_loader
-from . import identity
-from . import dates
-from . import technical
-from . import eligibility
-from . import finance
-from . import penalties
-from . import llm_formatter
-from . import pdf_generator
+# ✅ IMPORT FROM services PACKAGE
+from backend.services import pdf_loader
+from backend.services import llm_formatter
+from backend.services import pdf_generator
+
+from backend.services import identity
+from backend.services import dates
+from backend.services import technical
+from backend.services import eligibility
+from backend.services import finance
+from backend.services import penalties
 
 app = FastAPI()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FRONTEND_DIR = os.path.join(BASE_DIR, "..", "tender-summary-frontend")
+FRONTEND_DIR = os.path.join(BASE_DIR, "..", "frontend")
 UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 
@@ -60,6 +61,4 @@ def generate(filename: str):
     out = os.path.join(OUTPUT_DIR, "Tender_Summary.pdf")
     pdf_generator.generate_pdf(summary, out)
 
-    return {
-        "download": "/outputs/Tender_Summary.pdf"
-    }
+    return {"download": "/outputs/Tender_Summary.pdf"}

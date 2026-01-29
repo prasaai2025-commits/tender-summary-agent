@@ -1,6 +1,7 @@
 import pdfplumber
 import re
-from config import PAGE_THRESHOLD
+from backend.config import PAGE_THRESHOLD
+
 
 def load_pdf_text(pdf_path):
     text = ""
