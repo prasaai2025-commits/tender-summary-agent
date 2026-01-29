@@ -3,17 +3,16 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import os, shutil
 
-# ✅ FILE-LEVEL imports (Render-safe)
 from backend.services.pdf_loader import load_pdf_text
 from backend.services.llm_formatter import format_summary
 from backend.services.pdf_generator import generate_pdf
 
-from backend.services.identity import extract_identity
-from backend.services.dates import extract_dates
-from backend.services.technical import extract_technical
-from backend.services.eligibility import extract_eligibility
-from backend.services.finance import extract_finance
-from backend.services.penalties import extract_penalties
+from backend.services.extractors.identity import extract_identity
+from backend.services.extractors.dates import extract_dates
+from backend.services.extractors.technical import extract_technical
+from backend.services.extractors.eligibility import extract_eligibility
+from backend.services.extractors.finance import extract_finance
+from backend.services.extractors.penalties import extract_penalties
 
 app = FastAPI()
 
