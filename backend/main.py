@@ -3,15 +3,16 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import os, shutil
 
-import pdf_loader
-import identity
-import dates
-import technical
-import eligibility
-import finance
-import penalties
-import llm_formatter
-import pdf_generator
+# ✅ Package imports (Render-safe)
+from backend import pdf_loader
+from backend import identity
+from backend import dates
+from backend import technical
+from backend import eligibility
+from backend import finance
+from backend import penalties
+from backend import llm_formatter
+from backend import pdf_generator
 
 app = FastAPI()
 
@@ -23,12 +24,15 @@ OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+# Serve generated PDFs
 app.mount("/outputs", StaticFiles(directory=OUTPUT_DIR), name="outputs")
+
 
 @app.get("/", response_class=HTMLResponse)
 def home():
     with open(os.path.join(FRONTEND_DIR, "index.html"), "r", encoding="utf-8") as f:
         return f.read()
+
 
 @app.post("/upload")
 async def upload(file: UploadFile = File(...)):
@@ -36,6 +40,7 @@ async def upload(file: UploadFile = File(...)):
     with open(path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     return {"filename": file.filename}
+
 
 @app.post("/generate-pdf")
 def generate(filename: str):
