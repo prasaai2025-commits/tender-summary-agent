@@ -1,5 +1,7 @@
+
 from PyPDF2 import PdfReader
-from config import PAGE_THRESHOLD
+from backend.config import PAGE_THRESHOLD
+
 
 def classify_pdf(pdf_path):
     reader = PdfReader(pdf_path)

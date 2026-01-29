@@ -3,17 +3,17 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import os, shutil
 
-# ✅ IMPORT FROM services PACKAGE
-from backend.services import pdf_loader
-from backend.services import llm_formatter
-from backend.services import pdf_generator
+# ✅ Services imports (ABSOLUTE – Render safe)
+from backend.services.pdf_loader import load_pdf_text
+from backend.services.llm_formatter import format_summary
+from backend.services.pdf_generator import generate_pdf
 
-from backend.services import identity
-from backend.services import dates
-from backend.services import technical
-from backend.services import eligibility
-from backend.services import finance
-from backend.services import penalties
+from backend.services.identity import extract_identity
+from backend.services.dates import extract_dates
+from backend.services.technical import extract_technical
+from backend.services.eligibility import extract_eligibility
+from backend.services.finance import extract_finance
+from backend.services.penalties import extract_penalties
 
 app = FastAPI()
 
@@ -46,19 +46,19 @@ async def upload(file: UploadFile = File(...)):
 def generate(filename: str):
     pdf_path = os.path.join(UPLOAD_DIR, filename)
 
-    text = pdf_loader.load_pdf_text(pdf_path)
+    text = load_pdf_text(pdf_path)
 
-    summary = llm_formatter.format_summary(
-        identity.extract_identity(text),
-        dates.extract_dates(text),
-        technical.extract_technical(text),
-        eligibility.extract_eligibility(text),
-        finance.extract_finance(text),
-        penalties.extract_penalties(text),
+    summary = format_summary(
+        extract_identity(text),
+        extract_dates(text),
+        extract_technical(text),
+        extract_eligibility(text),
+        extract_finance(text),
+        extract_penalties(text),
         filename
     )
 
-    out = os.path.join(OUTPUT_DIR, "Tender_Summary.pdf")
-    pdf_generator.generate_pdf(summary, out)
+    output_path = os.path.join(OUTPUT_DIR, "Tender_Summary.pdf")
+    generate_pdf(summary, output_path)
 
     return {"download": "/outputs/Tender_Summary.pdf"}

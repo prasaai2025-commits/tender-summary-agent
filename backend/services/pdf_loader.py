@@ -8,7 +8,7 @@ def load_pdf_text(pdf_path):
     with pdfplumber.open(pdf_path) as pdf:
         for i, page in enumerate(pdf.pages):
             if i >= PAGE_THRESHOLD:
-                break  # stop reading more pages
+                break
 
             t = page.extract_text()
             if t:
