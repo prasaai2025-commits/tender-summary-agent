@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import os, shutil
 
-# ✅ Services imports (ABSOLUTE – Render safe)
+# ✅ FILE-LEVEL imports (Render-safe)
 from backend.services.pdf_loader import load_pdf_text
 from backend.services.llm_formatter import format_summary
 from backend.services.pdf_generator import generate_pdf
@@ -58,7 +58,7 @@ def generate(filename: str):
         filename
     )
 
-    output_path = os.path.join(OUTPUT_DIR, "Tender_Summary.pdf")
-    generate_pdf(summary, output_path)
+    out = os.path.join(OUTPUT_DIR, "Tender_Summary.pdf")
+    generate_pdf(summary, out)
 
     return {"download": "/outputs/Tender_Summary.pdf"}

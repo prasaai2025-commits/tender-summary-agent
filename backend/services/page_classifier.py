@@ -1,4 +1,3 @@
-
 from PyPDF2 import PdfReader
 from backend.config import PAGE_THRESHOLD
 
@@ -10,3 +9,4 @@ def classify_pdf(pdf_path):
         "pages": pages,
         "mode": "NORMAL" if pages < PAGE_THRESHOLD else "HEAVY"
     }
+
