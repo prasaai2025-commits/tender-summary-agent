@@ -3,16 +3,16 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import os, shutil
 
-# ✅ Package imports (Render-safe)
-from backend import pdf_loader
-from backend import identity
-from backend import dates
-from backend import technical
-from backend import eligibility
-from backend import finance
-from backend import penalties
-from backend import llm_formatter
-from backend import pdf_generator
+# ✅ Relative imports (CORRECT)
+from . import pdf_loader
+from . import identity
+from . import dates
+from . import technical
+from . import eligibility
+from . import finance
+from . import penalties
+from . import llm_formatter
+from . import pdf_generator
 
 app = FastAPI()
 
@@ -24,7 +24,6 @@ OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Serve generated PDFs
 app.mount("/outputs", StaticFiles(directory=OUTPUT_DIR), name="outputs")
 
 
