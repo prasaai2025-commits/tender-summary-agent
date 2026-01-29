@@ -1,0 +1,26 @@
+fastapi
+uvicorn
+python-multipart
+pydantic
+
+# PDF processing
+PyPDF2
+pdfplumber
+pypdfium2
+
+# LLM / orchestration
+openai
+langchain
+langchain-core
+langchain-community
+tiktoken
+
+# Utilities
+reportlab
+tenacity
+requests
+
+# =========================
+# Render deployment extras
+# =========================
+gunicorn
